@@ -5,42 +5,36 @@ def multiply_list_values_1(lst, number):
     for i in range(len(lst)):
         lst[i] = lst[i] * number
     return lst
-# 定义有理数域
 R = RationalField()
 n = 200
 #print(n)
-# 定义射影平面 P2
 P2 = ProjectiveSpace(2, R)
 x, y, z = P2.coordinate_ring().gens()
 
-# 定义曲线 C
 #C = Curve(x**3 - (n-1)*x**2*y - (n-1)*x**2*z - (n-1)*x*y**2 - (2*n-3)*x*y*z - (n-1)*x*z**2 + y**3 - (n-1)*y**2*z - (n-1)*y*z**2 + z**3)
 
-# 定义点 Pt
 #Pt = [(w**2+1)*(3*w**3+8*w**2+14*w+11),-(w**2+2*w+2)*(3*w**3+w**2+7*w-2),w**6+3*w**5+11*w**4+17*w**3+20*w**2+12*w-1]
 
-# 创建椭圆曲线 E
 E = EllipticCurve_from_cubic(x**3 - (n-1)*x**2*y - (n-1)*x**2*z - (n-1)*x*y**2 - (2*n-3)*x*y*z - (n-1)*x*z**2 + y**3 - (n-1)*y**2*z - (n-1)*y*z**2 + z**3)
 #print(E)
 g = E.inverse()
 print(E.codomain().integral_points(both_signs=True))
 Pt = g(E.codomain().integral_points(both_signs=True)[0])
 
-# 循环计算
+
 for n in range(1, 100000000000000000000000000000000000000000000000000000000000000001):
-    # 在曲线 C 上计算点 nPt
+
     nPt_inE = E(Pt)*n
 
-    # 逆映射点 nPt_inE 回曲线 C 上
     nPt_inC = g(nPt_inE)
     #print(nPt_inC)
-    # 提取坐标
+
     X = nPt_inC[0].numerator()
     Y = nPt_inC[1].numerator()
     Z = nPt_inC[0].denominator()
     
 
-    # 检查条件
+
     if X > 0 and Y > 0:
         print("X =", X)
         print("Y =", Y)
